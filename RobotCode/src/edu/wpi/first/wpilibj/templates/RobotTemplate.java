@@ -26,7 +26,9 @@ public class RobotTemplate extends IterativeRobot {
      * used for any initialization code.
      */
     Joystick chassisDrive = new Joystick(1);
-    RobotDrive drive = new RobotDrive(1, 2); 
+    RobotDrive driveM = new RobotDrive(1,2); 
+    //Joystick assistTool = new Joystick(2);
+    //RobotDrive driveA = new RobotDrive(3,4);
     
     public void robotInit() {
         
@@ -37,7 +39,7 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void autonomousPeriodic() {
           for (int i = 0; i<=3; i++){
-              drive.drive(0.5, 0.0); //50% Power Forward, 0% Turn for 3 Seconds 
+              driveM.drive(0.25, 0.0); //50% Power Forward, 0% Turn for 3 Seconds 
           }
     }
 
@@ -47,9 +49,13 @@ public class RobotTemplate extends IterativeRobot {
     public void teleopPeriodic() {
      
         while (true && isOperatorControl() && isEnabled()) // loop until change 
-        { 
-            drive.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
+        {             
+            driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
             Timer.delay(0.005); 
+            //driveA.arcadeDrive(assistTool, true); //Enabling Drive with Joystick
+            //Timer.delay(0.002); 
+            //driveM.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
+            //driveM.setInvertedMotor(RobotDrive.MotorType.kFrontRight,true);
         }
         
     }
