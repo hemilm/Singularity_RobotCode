@@ -9,8 +9,9 @@ package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.RobotDrive; 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick; 
-import edu.wpi.first.wpilibj.Timer; 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.ButtonType;
+import edu.wpi.first.wpilibj.Timer;
 
 
 /**
@@ -38,9 +39,9 @@ public class RobotTemplate extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-          for (int i = 0; i<=3; i++){
-              driveM.drive(0.25, 0.0); //50% Power Forward, 0% Turn for 3 Seconds 
-          }
+              driveM.drive(0.25, 0.0); //25% Power Forward, 0% curve
+              //driveA.drive(.25, 0.0);
+          
     }
 
     /**
@@ -49,7 +50,7 @@ public class RobotTemplate extends IterativeRobot {
     public void teleopPeriodic() {
      
         while (true && isOperatorControl() && isEnabled()) // loop until change 
-        {             
+        {  
             driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
             Timer.delay(0.005); 
             //driveA.arcadeDrive(assistTool, true); //Enabling Drive with Joystick
