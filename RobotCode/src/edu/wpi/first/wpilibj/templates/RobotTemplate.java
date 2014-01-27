@@ -7,6 +7,8 @@
 
 package edu.wpi.first.wpilibj.templates;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.DriverStationLCD.Line;
 import edu.wpi.first.wpilibj.RobotDrive; 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,8 +30,9 @@ public class RobotTemplate extends IterativeRobot {
      */
     Joystick chassisDrive = new Joystick(1);
     RobotDrive driveM = new RobotDrive(1,2); 
-    //Joystick assistTool = new Joystick(2);
-    //RobotDrive driveA = new RobotDrive(3,4);
+    Joystick assistTool = new Joystick(2);
+    RobotDrive driveA = new RobotDrive(3,4);
+    DriverStationLCD lcd = DriverStationLCD.getInstance();
     
     public void robotInit() {
         
@@ -39,8 +42,17 @@ public class RobotTemplate extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+              lcd.println(Line.kUser1,1,"Line 1");
+              lcd.println(Line.kUser2,2,"Line 2");
+              lcd.println(Line.kUser3,3,"Line 3");
+              lcd.println(Line.kUser4,4,"Line 4");
+              lcd.println(Line.kUser5,5,"Line 5");
+              lcd.println(Line.kUser6,6,"Line 6");
+              lcd.updateLCD();
               driveM.drive(0.25, 0.0); //25% Power Forward, 0% curve
-              //driveA.drive(.25, 0.0);
+              driveM.drive(0.00, 0.0);
+              driveA.drive(.25, 0.0);
+              driveM.drive(-0.25, 0.0);
           
     }
 
@@ -53,10 +65,10 @@ public class RobotTemplate extends IterativeRobot {
         {  
             driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
             Timer.delay(0.005); 
-            //driveA.arcadeDrive(assistTool, true); //Enabling Drive with Joystick
-            //Timer.delay(0.002); 
-            //driveM.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
-            //driveM.setInvertedMotor(RobotDrive.MotorType.kFrontRight,true);
+            driveA.arcadeDrive(assistTool, true); //Enabling Drive with Joystick
+            Timer.delay(0.002); 
+            driveM.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
+            driveM.setInvertedMotor(RobotDrive.MotorType.kFrontRight,true);
         }
         
     }
