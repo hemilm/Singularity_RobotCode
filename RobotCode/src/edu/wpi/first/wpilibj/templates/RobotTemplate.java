@@ -10,10 +10,10 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.DriverStationLCD.Line;
 import edu.wpi.first.wpilibj.RobotDrive; 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Joystick; 
+import edu.wpi.first.wpilibj.SimpleRobot;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer; 
 
 
 /**
@@ -23,16 +23,20 @@ import edu.wpi.first.wpilibj.Timer;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class RobotTemplate extends IterativeRobot {
+public class RobotTemplate extends SimpleRobot {
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    Joystick chassisDrive = new Joystick(1);
-    RobotDrive driveM = new RobotDrive(1,2); 
-    Joystick assistTool = new Joystick(2);
-    RobotDrive driveA = new RobotDrive(3,4);
     DriverStationLCD lcd = DriverStationLCD.getInstance();
+    Joystick chassisDrive = new Joystick(1);
+    RobotDrive driveM = new RobotDrive(1, 2);
+    Joystick assistStick = new Joystick(2);
+    //Intake intakeSystem = new Intake(3, assistStick, lcd);
+    //RobotDrive driveA = new RobotDrive(4,3);
+    
+    double dir;
+    
     
     public void robotInit() {
         
@@ -41,43 +45,64 @@ public class RobotTemplate extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
-              lcd.println(Line.kUser1,1,"Line 1");
-              lcd.println(Line.kUser2,2,"Line 2");
-              lcd.println(Line.kUser3,3,"Line 3");
-              lcd.println(Line.kUser4,4,"Line 4");
-              lcd.println(Line.kUser5,5,"Line 5");
-              lcd.println(Line.kUser6,6,"Line 6");
-              lcd.updateLCD();
-              driveM.drive(0.25, 0.0); //25% Power Forward, 0% curve
-              driveM.drive(0.00, 0.0);
-              driveA.drive(.25, 0.0);
-              driveM.drive(-0.25, 0.0);
-          
+    public void autonomous() {
+        
+        
+        
+        //assistMotor.set(0.3);
+/*              
+for (int i = 0; i < 4; i++) {
+drive.drive(0.5, 0.0);  // drive 50% fwd 0% turn 
+Timer.delay(2.0);   // wait 2 seconds 
+drive.drive(0.0, 0.75);
+System.out.println("Loop count: "+i);// drive 0% fwd, 75% turn 
+}
+
+drive.drive(0.0, 0.0);
+*/
+
+//drive.drive(0.5, 0.0);
+             // Timer.delay(); 
     }
 
     /**
      * This function is called periodically during operator control
      */
-    public void teleopPeriodic() {
-     
-        while (true && isOperatorControl() && isEnabled()) // loop until change 
-        {  
+    public void operatorControl() {
+        lcd.println(Line.kUser1, 1, "Operator Control Enabled");
+        lcd.updateLCD();
+        
+        driveM.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+        driveM.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        
+        while(isOperatorControl() && isEnabled()) {
+            
             driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
-            Timer.delay(0.005); 
-            driveA.arcadeDrive(assistTool, true); //Enabling Drive with Joystick
-            Timer.delay(0.002); 
-            driveM.setInvertedMotor(RobotDrive.MotorType.kFrontLeft,true);
-            driveM.setInvertedMotor(RobotDrive.MotorType.kFrontRight,true);
+            Timer.delay(0.005);
+            
+            dir = Math.toDegrees(assistStick.getDirectionRadians());
+            lcd.println(Line.kUser2, 2, Double.toString(dir) + "degrees");
+            lcd.updateLCD();
+            Timer.delay(0.005);
         }
+        lcd.clear();
+        
+        /*
+        while (true && isOperatorControl() && isEnabled()) // loop until change 
+        { 
+            driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
+            Timer.delay(0.005);
+        }
+        */
         
     }
     
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
-    
+    public void test() {
+        
+        
     }
     
 }
