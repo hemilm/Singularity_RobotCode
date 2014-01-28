@@ -29,7 +29,7 @@ public class RobotTemplate extends SimpleRobot {
      * used for any initialization code.
      */
     DriverStationLCD lcd = DriverStationLCD.getInstance();
-    Joystick chassisDrive = new Joystick(1);
+    Joystick driveStick = new Joystick(1);
     RobotDrive driveM = new RobotDrive(1, 2);
     Joystick assistStick = new Joystick(2);
     Talon assistMotor = new Talon(3);
@@ -40,20 +40,25 @@ public class RobotTemplate extends SimpleRobot {
     
     
     public void robotInit() {
-        
+        lcd.println(Line.kUser6, 1, "Robot Initialized");
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomous() {
-        driveM.drive(.25,0.00);
+        
+        driveM.drive(0.25, 0.0);
         Timer.delay(2.00);
-        driveM.drive(0.0,0.0);
-        assistMotor.set(.20);
-        driveM.drive(-.25,0.00);
-        Timer.delay(1.0);
-        Timer.delay(6.0);
+        driveM.drive(0.0, 0.0);
+        assistMotor.set(0.2);
+        Timer.delay(1.00);
+        driveM.drive(-0.25, 0.0);
+        Timer.delay(1.00);
+        driveM.drive(0.0, 0.0);
+        Timer.delay(6.00);
+        
+        
     }
 
     /**
@@ -66,13 +71,21 @@ public class RobotTemplate extends SimpleRobot {
         driveM.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         driveM.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         
+        //loop
         while(isOperatorControl() && isEnabled()) {
             
-            driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
+            driveM.arcadeDrive(driveStick, true); //Enabling Drive with Joystick
             Timer.delay(0.005);
             
+            
             dir = Math.toDegrees(assistStick.getDirectionRadians());
-            lcd.println(Line.kUser2, 2, Double.toString(dir) + "degrees");
+            
+            if(assistStick.getTrigger())
+                assistMotor.set(getSpeedByJoystick(dir));
+            else
+                assistMotor.set(0.0);
+            
+            lcd.println(Line.kUser2, 2, Double.toString(dir));
             lcd.updateLCD();
             Timer.delay(0.005);
         }
@@ -96,4 +109,12 @@ public class RobotTemplate extends SimpleRobot {
         
     }
     
+    private double getSpeedByJoystick(double direction) {
+        Math.abs(direction);
+        double temp_dir = 90.0 - direction;
+        if(temp_dir > 0)
+            return 0.25;
+        else
+            return -0.25;
+    }
 }
