@@ -32,6 +32,7 @@ public class RobotTemplate extends SimpleRobot {
     Joystick chassisDrive = new Joystick(1);
     RobotDrive driveM = new RobotDrive(1, 2);
     Joystick assistStick = new Joystick(2);
+    Talon assistMotor = new Talon(3);
     //Intake intakeSystem = new Intake(3, assistStick, lcd);
     //RobotDrive driveA = new RobotDrive(4,3);
     
@@ -46,23 +47,13 @@ public class RobotTemplate extends SimpleRobot {
      * This function is called periodically during autonomous
      */
     public void autonomous() {
-        
-        
-        
-        //assistMotor.set(0.3);
-/*              
-for (int i = 0; i < 4; i++) {
-drive.drive(0.5, 0.0);  // drive 50% fwd 0% turn 
-Timer.delay(2.0);   // wait 2 seconds 
-drive.drive(0.0, 0.75);
-System.out.println("Loop count: "+i);// drive 0% fwd, 75% turn 
-}
-
-drive.drive(0.0, 0.0);
-*/
-
-//drive.drive(0.5, 0.0);
-             // Timer.delay(); 
+        driveM.drive(.25,0.00);
+        Timer.delay(2.00);
+        driveM.drive(0.0,0.0);
+        assistMotor.set(.20);
+        driveM.drive(-.25,0.00);
+        Timer.delay(1.0);
+        Timer.delay(6.0);
     }
 
     /**
