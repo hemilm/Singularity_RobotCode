@@ -53,6 +53,7 @@ public class RobotTemplate extends SimpleRobot {
         driveM.drive(0.0, 0.0);
         assistMotor.set(0.2);
         Timer.delay(1.00);
+        assistMotor.set(0.0);
         driveM.drive(-0.25, 0.0);
         Timer.delay(1.00);
         driveM.drive(0.0, 0.0);
