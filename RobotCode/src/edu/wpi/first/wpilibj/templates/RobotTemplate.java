@@ -32,9 +32,8 @@ public class RobotTemplate extends SimpleRobot {
     Joystick driveStick = new Joystick(1);
     RobotDrive driveM = new RobotDrive(1, 2);
     Joystick assistStick = new Joystick(2);
-    Talon assistMotor = new Talon(3);
     //Intake intakeSystem = new Intake(3, assistStick, lcd);
-    //RobotDrive driveA = new RobotDrive(4,3);
+    RobotDrive driveA = new RobotDrive(3,4);
     
     double dir;
     
@@ -51,9 +50,9 @@ public class RobotTemplate extends SimpleRobot {
         driveM.drive(0.25, 0.0);
         Timer.delay(2.00);
         driveM.drive(0.0, 0.0);
-        assistMotor.set(0.2);
+        driveA.drive(0.30,0.0);
         Timer.delay(1.00);
-        assistMotor.set(0.0);
+        driveA.drive(0.0,0.0);
         driveM.drive(-0.25, 0.0);
         Timer.delay(1.00);
         driveM.drive(0.0, 0.0);
@@ -76,15 +75,18 @@ public class RobotTemplate extends SimpleRobot {
         while(isOperatorControl() && isEnabled()) {
             
             driveM.arcadeDrive(driveStick, true); //Enabling Drive with Joystick
-            Timer.delay(0.005);
             
+            //driveA.arcadeDrive(assistStick,true);
             
             dir = Math.toDegrees(assistStick.getDirectionRadians());
             
+            
+            
             if(assistStick.getTrigger())
-                assistMotor.set(getSpeedByJoystick(dir));
+                driveA.drive(getSpeedByJoystick(dir),0.0);
             else
-                assistMotor.set(0.0);
+                driveA.drive(0,0);
+            
             
             lcd.println(Line.kUser2, 2, Double.toString(dir));
             lcd.updateLCD();
@@ -92,13 +94,6 @@ public class RobotTemplate extends SimpleRobot {
         }
         lcd.clear();
         
-        /*
-        while (true && isOperatorControl() && isEnabled()) // loop until change 
-        { 
-            driveM.arcadeDrive(chassisDrive, true); //Enabling Drive with Joystick
-            Timer.delay(0.005);
-        }
-        */
         
     }
     
@@ -114,8 +109,8 @@ public class RobotTemplate extends SimpleRobot {
         Math.abs(direction);
         double temp_dir = 90.0 - direction;
         if(temp_dir > 0)
-            return 0.25;
+            return 0.30;
         else
-            return -0.25;
+            return -0.30;
     }
 }
