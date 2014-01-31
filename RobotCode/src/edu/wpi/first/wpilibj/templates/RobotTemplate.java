@@ -30,7 +30,7 @@ public class RobotTemplate extends SimpleRobot {
      */
     DriverStationLCD lcd = DriverStationLCD.getInstance();
     Joystick driveStick = new Joystick(1);
-    RobotDrive driveM = new RobotDrive(1, 2);
+    RobotDrive driveM = new RobotDrive(1, 2); // 
     Joystick assistStick = new Joystick(2);
     //Intake intakeSystem = new Intake(3, assistStick, lcd);
     RobotDrive driveA = new RobotDrive(3,4);
