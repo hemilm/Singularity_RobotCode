@@ -33,7 +33,8 @@ public class RobotTemplate extends SimpleRobot {
     RobotDrive driveM = new RobotDrive(1, 2); // 
     Joystick assistStick = new Joystick(2);
     //Intake intakeSystem = new Intake(3, assistStick, lcd);
-    RobotDrive driveA = new RobotDrive(3,4);
+    RobotDrive driveA = new RobotDrive(3,10);
+    Talon liftMotor = new Talon(4);
     
     double dir;
     
@@ -47,6 +48,8 @@ public class RobotTemplate extends SimpleRobot {
      */
     public void autonomous() {
         
+        liftMotor.set(-.25);
+        Timer.delay(1.00);
         driveM.drive(0.25, 0.0);
         Timer.delay(2.00);
         driveM.drive(0.0, 0.0);
@@ -56,7 +59,7 @@ public class RobotTemplate extends SimpleRobot {
         driveM.drive(-0.25, 0.0);
         Timer.delay(1.00);
         driveM.drive(0.0, 0.0);
-        Timer.delay(6.00);
+        Timer.delay(5.00);
         
         
     }
@@ -101,7 +104,9 @@ public class RobotTemplate extends SimpleRobot {
      * This function is called periodically during test mode
      */
     public void test() {
-        
+        liftMotor.set(0.25);
+        Timer.delay(1.00);
+        liftMotor.set(0.00);
         
     }
     
@@ -109,8 +114,8 @@ public class RobotTemplate extends SimpleRobot {
         Math.abs(direction);
         double temp_dir = 90.0 - direction;
         if(temp_dir > 0)
-            return 0.30;
+            return 0.65;
         else
-            return -0.30;
+            return -0.65;
     }
 }
