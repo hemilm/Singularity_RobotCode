@@ -55,7 +55,7 @@ public class RobotTemplate extends SimpleRobot {
  
 	try {
  
-		Object obj = parser.parse(new FileReader("c:\\test.json"));
+		Object obj = parser.parse(new FileReader("test.json"));
  
 		JSONObject jsonObject = (JSONObject) obj;
  
